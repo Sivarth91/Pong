@@ -195,7 +195,99 @@ public:
         player1->reset();
         player2->reset();
     }
-    
+
+    void draw()
+    {
+        system("cls");
+        for (int i = 0; i < width + 2; i++)
+            cout << "\xB2";
+        cout << endl;
+
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; width++)
+            {
+                int ballX = ball->getX();
+                int ballY = ball->getY();
+                int player1X = player1->getX();
+                int player2X = player2->getX();
+                int player1Y = player1->getY();
+                int player2Y = player2->getY();
+
+                if (j == 0)
+                    cout << "\xB2";
+
+                if (ballX == j && ballY == i)
+                    cout << "O";
+                else if (player1X == j && player1Y == i)
+                    cout << "\xDB";
+                else if (player2X == j && player2Y == i)
+                    cout << "\xDB";
+
+                else if (player1X == j && player1Y + 1 == i)
+                    cout << "\xDB";
+                else if (player1X == j && player1Y + 2 == i)
+                    cout << "\xDB";
+                else if (player1X == j && player1Y + 3 == i)
+                    cout << "\xDB";
+
+                else if (player2X == j && player2Y + 1 == i)
+                    cout << "\xDB";
+                else if (player2X == j && player2Y + 2 == i)
+                    cout << "\xDB";
+                else if (player2X == j && player2Y + 3 == i)
+                    cout << "\xDB";
+                else
+                    cout << " ";
+
+                if (j == width - 1)
+                    cout << "\xB2";
+            }
+            cout << endl;
+        }
+
+        for (int i = 0; i < width + 2; i++)
+            cout << "\xB2";
+        cout << endl;
+
+        cout << "Score 1: " << score1 << endl << "Score 2: " << score2 << endl;
+    }
+
+    void input()
+    {
+        ball->move();
+
+        int ballX = ball->getX();
+        int ballY = ball->getY();
+        int player1X = player1->getX();
+        int player2X = player2->getX();
+        int player1Y = player1->getY();
+        int player2Y = player2->getY();
+
+        if (_kbhit())
+        {
+            char current = _getch();
+
+            if (current == up1)
+                if (player1Y > 0)
+                    player1->moveUp();
+            if (current == up2)
+                if (player2Y > 0)
+                    player2->moveUp();
+            if (current == down1)
+                if (player1Y + 4 < height)
+                    player1->moveDown();
+            if (current == down2)
+                if (player2Y + 4 < height)
+                    player2->moveDown();
+
+            if (ball->getDir() == STOP)
+                ball->randomDirection();
+
+            if (current == 'q')
+                quit = true;
+        }
+    }
 };
 
 
