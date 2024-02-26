@@ -288,18 +288,50 @@ public:
                 quit = true;
         }
     }
-};
 
+    void logic()
+    {
+        int ballX = ball->getX();
+        int ballY = ball->getY();
+        int player1X = player1->getX();
+        int player1Y = player1->getY();
+        int player2X = player2->getX();
+        int player2Y = player2->getY();
+
+        for (int i = 0; i < 4; i++)
+            if (ballX == player1X + 1)
+                if (ballY == player1Y + i)
+                    ball->changeDirection((Direction) ((rand() % 3) + 4));
+
+        for (int i = 0; i < 4; i++)
+            if (ballX == player2X - 1)
+                if (ballY == player2Y + i)
+                    ball->changeDirection((Direction) ((rand() % 3) + 1));
+
+        if (ballY == height - 1)
+            ball->changeDirection(ball->getDir() == DOWNRIGHT ? UPRIGHT : UPLEFT);
+        if (ballY == 0)
+            ball->changeDirection(ball->getDir() == UPRIGHT ? DOWNRIGHT : DOWNLEFT);
+        if (ballX == width - 1)
+            scoreUp(player1);
+        if (ballX == 0)
+            scoreUp(player2);
+    }
+
+    void run()
+    {
+        while (!quit)
+        {
+            draw();
+            input();
+            logic();
+        }
+    }
+};
 
 int main()
 {
-    Paddle p1(0, 0);
-    Paddle p2(10, 0);
-    cout << p1 << endl;
-    cout << p2 << endl;
-    p1.moveUp();
-    p2.moveDown();
-    cout << p1 << endl;
-    cout << p2 << endl;
+    GameManager gm(40, 20);
+    gm.run();
     return 0;
 }
